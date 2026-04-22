@@ -329,7 +329,7 @@ export function startGame() {
     interactions.register({
       object: characters.voices.philosopher.container,
       radius: 2.7,
-      prompt: "Press E to answer the Philosopher",
+      prompt: "Press E to answer the Philosopher (Polonius is dead)",
       isAvailable: () => isExploreMode("start") && !stateManager.getSnapshot().completedEncounters.includes("philosopherIntro"),
       onInteract: () => startEncounter("philosopherIntro"),
     });
@@ -337,7 +337,7 @@ export function startGame() {
     interactions.register({
       object: characters.voices.avenger.container,
       radius: 2.8,
-      prompt: "Press E to face the Avenger",
+      prompt: "Press E to face the Avenger (England awaits)",
       isAvailable: () => isExploreMode("debate") && !stateManager.getSnapshot().completedEncounters.includes("avengerDebate"),
       onInteract: () => startEncounter("avengerDebate"),
     });
@@ -345,7 +345,7 @@ export function startGame() {
     interactions.register({
       object: characters.voices.witness.container,
       radius: 2.8,
-      prompt: "Press E to hear the Witness",
+      prompt: "Press E to hear the Witness (Ophelia sings)",
       isAvailable: () => isExploreMode("hallOfDelay") && stateManager.getSnapshot().collectedFragments.length >= 3 && !stateManager.getSnapshot().completedEncounters.includes("witnessDelay"),
       onInteract: () => startEncounter("witnessDelay"),
     });
@@ -353,7 +353,7 @@ export function startGame() {
     interactions.register({
       object: characters.voices.actor.container,
       radius: 2.8,
-      prompt: "Press E to answer the Actor",
+      prompt: "Press E to answer the Actor (madness as mask?)",
       isAvailable: () => isExploreMode("stageOfMasks") && stateManager.getSnapshot().activatedStageMarks.length >= 3 && !stateManager.getSnapshot().completedEncounters.includes("actorMasks"),
       onInteract: () => startEncounter("actorMasks"),
     });
@@ -361,7 +361,7 @@ export function startGame() {
     interactions.register({
       object: environment.getTransitionObject("start"),
       radius: 2.4,
-      prompt: "Press E to enter the Debate Chamber",
+      prompt: "Press E to enter the Debate Chamber (Claudius watches)",
       isAvailable: () => isExploreMode("start") && stateManager.getSnapshot().completedEncounters.includes("philosopherIntro"),
       onInteract: () => transitionToChamber("debate"),
     });
@@ -369,7 +369,7 @@ export function startGame() {
     interactions.register({
       object: environment.getTransitionObject("debate"),
       radius: 2.4,
-      prompt: "Press E to enter the Hall of Delay",
+      prompt: "Press E to enter the Hall of Delay (Laertes returns)",
       isAvailable: () => isExploreMode("debate") && stateManager.getSnapshot().completedEncounters.includes("avengerDebate"),
       onInteract: () => {
         stateManager.applyEffects({ objectiveKey: "delay.fragments" });
@@ -380,7 +380,7 @@ export function startGame() {
     interactions.register({
       object: environment.getTransitionObject("hallOfDelay"),
       radius: 2.4,
-      prompt: "Press E to step onto the Stage of Masks",
+      prompt: "Press E to step onto the Stage of Masks (play along)",
       isAvailable: () => isExploreMode("hallOfDelay") && stateManager.getSnapshot().completedEncounters.includes("witnessDelay"),
       onInteract: () => {
         stateManager.applyEffects({ objectiveKey: "masks.marks" });
@@ -391,7 +391,7 @@ export function startGame() {
     interactions.register({
       object: environment.getTransitionObject("stageOfMasks"),
       radius: 2.4,
-      prompt: "Press E to enter the Chamber of Consequence",
+      prompt: "Press E to enter the Chamber of Consequence (judgment waits)",
       isAvailable: () => isExploreMode("stageOfMasks") && stateManager.getSnapshot().completedEncounters.includes("actorMasks"),
       onInteract: () => {
         stateManager.applyEffects({ objectiveKey: "consequence.plates" });
@@ -403,7 +403,7 @@ export function startGame() {
       interactions.register({
         object: environment.getFragmentObject(fragmentId),
         radius: 2.1,
-        prompt: "Press E to gather the thought fragment",
+        prompt: "Press E to gather an Act IV fragment",
         isAvailable: () => isExploreMode("hallOfDelay") && !stateManager.getSnapshot().collectedFragments.includes(fragmentId),
         onInteract: () => collectFragment(fragmentId),
       });
@@ -413,7 +413,7 @@ export function startGame() {
       interactions.register({
         object: environment.getStageMarkObject(markId),
         radius: 2.2,
-        prompt: "Press E to hold the stage mark",
+        prompt: "Press E to hold the performance mark",
         isAvailable: () => isExploreMode("stageOfMasks") && !stateManager.getSnapshot().activatedStageMarks.includes(markId),
         onInteract: () => activateStageMark(markId),
       });
@@ -432,7 +432,7 @@ export function startGame() {
     interactions.register({
       object: environment.getFinalDaisObject(),
       radius: 2.5,
-      prompt: "Press E to submit to judgment",
+      prompt: "Press E to let your chosen voice rule Hamlet",
       isAvailable: () => isExploreMode("consequence") && stateManager.getSnapshot().activatedJudgmentPlates.length >= 3 && !stateManager.getSnapshot().completedEncounters.includes("consequenceJudgment"),
       onInteract: () => startEncounter("consequenceJudgment"),
     });

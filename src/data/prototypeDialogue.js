@@ -1,15 +1,15 @@
 export const prototypeDialogue = {
   start: {
     speaker: "The Philosopher",
-    text: "You wait again. Thought keeps polishing the blade while the hour dulls.",
+    text: "Polonius is dead behind the curtain. Name it: justice, mistake, or both.",
     choices: [
       {
-        label: "Then I should act before doubt seals my hand.",
+        label: "Act now. Claudius will not wait for my conscience.",
         alignment: "avenger",
         next: "urgentReply",
       },
       {
-        label: "Then I should wait until the wound tells the truth.",
+        label: "Wait. One wrong strike has already been made.",
         alignment: "philosopher",
         next: "measuredReply",
       },
@@ -17,15 +17,15 @@ export const prototypeDialogue = {
   },
   urgentReply: {
     speaker: "The Philosopher",
-    text: "Action has a cost. Will you pay in blood to escape your own delay?",
+    text: "Gertrude saw the body. Claudius sends you to England. Will you answer him with force?",
     choices: [
       {
-        label: "Yes. Better a scar than another speech.",
+        label: "Yes. Better danger than obedience.",
         alignment: "avenger",
         next: "threshold",
       },
       {
-        label: "No. A wrong stroke only crowns the lie.",
+        label: "No. Another blind stroke serves Claudius.",
         alignment: "philosopher",
         next: "threshold",
       },
@@ -33,15 +33,15 @@ export const prototypeDialogue = {
   },
   measuredReply: {
     speaker: "The Philosopher",
-    text: "Thinking has a cost as well. Will you let another night make cowardice look wise?",
+    text: "Delay has a cost as well. Ophelia is unraveling and Laertes is returning armed.",
     choices: [
       {
-        label: "No. Delay has fed the rot long enough.",
+        label: "Then no more delay. Grief will turn into steel.",
         alignment: "avenger",
         next: "threshold",
       },
       {
-        label: "Yes. Better doubt than a blind revenge.",
+        label: "Then keep doubt. Better that than blind revenge.",
         alignment: "philosopher",
         next: "threshold",
       },
@@ -49,15 +49,15 @@ export const prototypeDialogue = {
   },
   threshold: {
     speaker: "The Philosopher",
-    text: "Then step forward. The next chamber strips appearance from desire.",
+    text: "Step forward. Act IV tightens around Hamlet now.",
     choices: [
       {
-        label: "Step into force.",
+        label: "Step toward revenge.",
         alignment: "avenger",
         next: "END",
       },
       {
-        label: "Step into judgment.",
+        label: "Step toward judgment.",
         alignment: "philosopher",
         next: "END",
       },

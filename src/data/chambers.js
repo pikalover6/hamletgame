@@ -4,7 +4,7 @@ export const CHAMBER_DEFINITIONS = {
   start: {
     id: "start",
     title: "Start Chamber",
-    subtitle: "An opening circle of thought.",
+    subtitle: "Polonius is dead; Gertrude has seen too much.",
     origin: [0, 0, 0],
     spawn: [0, 0, 6],
     bounds: {
@@ -32,7 +32,7 @@ export const CHAMBER_DEFINITIONS = {
   debate: {
     id: "debate",
     title: "Debate Chamber",
-    subtitle: "The argument takes a body.",
+    subtitle: "Claudius smiles and sends Hamlet to England.",
     origin: [38, 0, 0],
     spawn: [38, 0, 5.6],
     bounds: {
@@ -60,7 +60,7 @@ export const CHAMBER_DEFINITIONS = {
   hallOfDelay: {
     id: "hallOfDelay",
     title: "Hall of Delay",
-    subtitle: "Every step promises a later step.",
+    subtitle: "Ophelia sings in fragments; Laertes turns for home.",
     origin: [82, 0, 0],
     spawn: [82, 0, 10.5],
     bounds: {
@@ -93,7 +93,7 @@ export const CHAMBER_DEFINITIONS = {
   stageOfMasks: {
     id: "stageOfMasks",
     title: "Stage of Masks",
-    subtitle: "The face learns to rehearse itself.",
+    subtitle: "Madness, obedience, and survival blur together.",
     origin: [126, 0, 0],
     spawn: [126, 0, 8.4],
     bounds: {
@@ -126,7 +126,7 @@ export const CHAMBER_DEFINITIONS = {
   consequence: {
     id: "consequence",
     title: "Chamber of Consequence",
-    subtitle: "Every voice waits to be chosen.",
+    subtitle: "Choose the voice that will carry Hamlet out of Act IV.",
     origin: [170, 0, 0],
     spawn: [170, 0, 11.3],
     bounds: {
