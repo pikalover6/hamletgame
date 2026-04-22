@@ -440,13 +440,18 @@ export function startGame() {
   }
 
   async function buildCharacters() {
-    const { baseScene, walkClip } = await loadBaseCharacterAssets();
+    const { baseScene, walkClip, idleClip } = await loadBaseCharacterAssets();
     const player = createCharacter(baseScene, CHARACTER_VARIANTS.player);
     const philosopher = createCharacter(baseScene, CHARACTER_VARIANTS.philosopher);
     const avenger = createCharacter(baseScene, CHARACTER_VARIANTS.avenger);
     const actor = createCharacter(baseScene, CHARACTER_VARIANTS.actor);
     const witness = createCharacter(baseScene, CHARACTER_VARIANTS.witness);
 
+    if (idleClip) {
+      for (const char of [player, philosopher, avenger, actor, witness]) {
+        char.animator.loadIdleClip(idleClip);
+      }
+    }
     if (walkClip) {
       player.animator.loadWalkClip(walkClip);
     }

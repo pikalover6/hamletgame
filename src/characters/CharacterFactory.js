@@ -14,6 +14,7 @@ export const CHARACTER_VARIANTS = {
       walkStrength: 1,
       presenceStrength: 0.84,
       phase: 0,
+      shoulderWidth: 0.045, // Reduced from default 0.085 to make shoulders less broad
     },
     height: 2.95,
     scale: 1.02,
@@ -146,12 +147,13 @@ export async function loadBaseCharacterAssets() {
   const gltf = await loader.loadAsync(suitUrl);
 
   let walkClip = null;
+  let idleClip = null;
+
+  const fbxLoader = new FBXLoader();
 
   try {
-    const fbxLoader = new FBXLoader();
     const walkUrl = new URL("../../walk.fbx", import.meta.url).href;
     const walkFbx = await fbxLoader.loadAsync(walkUrl);
-
     if (walkFbx.animations.length > 0) {
       [walkClip] = walkFbx.animations;
     }
@@ -159,9 +161,20 @@ export async function loadBaseCharacterAssets() {
     console.warn("[CharacterFactory] walk.fbx was not available; using procedural locomotion fallback.", error);
   }
 
+  try {
+    const idleUrl = new URL("../../idle.fbx", import.meta.url).href;
+    const idleFbx = await fbxLoader.loadAsync(idleUrl);
+    if (idleFbx.animations.length > 0) {
+      [idleClip] = idleFbx.animations;
+    }
+  } catch (error) {
+    console.warn("[CharacterFactory] idle.fbx was not available.", error);
+  }
+
   return {
     baseScene: gltf.scene,
     walkClip,
+    idleClip,
   };
 }
 
