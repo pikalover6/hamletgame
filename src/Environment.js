@@ -56,6 +56,23 @@ function makePulseMesh(geometry, color, emissiveIntensity = 0.28) {
   return mesh;
 }
 
+function prioritizeInteractiveVisual(object, renderOrder = 8) {
+  object.renderOrder = renderOrder;
+  object.traverse?.((node) => {
+    if (!node.isMesh) {
+      return;
+    }
+
+    node.renderOrder = renderOrder;
+    const material = node.material;
+    if (material && !Array.isArray(material)) {
+      material.polygonOffset = true;
+      material.polygonOffsetFactor = -1;
+      material.polygonOffsetUnits = -2;
+    }
+  });
+}
+
 function addFloatingForms(group, palette, center = new THREE.Vector3()) {
   const forms = [];
 
@@ -129,6 +146,7 @@ export class EnvironmentController {
   createTransitionSigil(worldPosition, color) {
     const group = new THREE.Group();
     group.position.copy(worldPosition);
+    group.position.y += 0.16;
 
     const ring = this.registerPulseMesh(
       makePulseMesh(new THREE.TorusGeometry(1.35, 0.18, 8, 20), color, 0.34),
@@ -140,9 +158,10 @@ export class EnvironmentController {
       makePulseMesh(new THREE.CylinderGeometry(1.1, 1.1, 0.12, 8), color, 0.16),
       { speed: 0.9, phase: 0.7 }
     );
-    disc.position.y = -0.04;
+    disc.position.y = 0.02;
 
     group.add(ring, disc);
+    prioritizeInteractiveVisual(group, 9);
     return group;
   }
 
@@ -162,7 +181,9 @@ export class EnvironmentController {
       { speed: 1.25 }
     );
     mark.position.copy(worldPosition);
+    mark.position.y += 0.24;
     mark.rotation.x = Math.PI / 2;
+    prioritizeInteractiveVisual(mark, 10);
     return mark;
   }
 
@@ -172,7 +193,8 @@ export class EnvironmentController {
       { speed: 0.85 }
     );
     plate.position.copy(worldPosition);
-    plate.position.y += 0.08;
+    plate.position.y += 0.16;
+    prioritizeInteractiveVisual(plate, 10);
     return plate;
   }
 

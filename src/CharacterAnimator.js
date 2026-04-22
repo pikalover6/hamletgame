@@ -199,6 +199,8 @@ export class CharacterRigAnimator {
     const torsoWeight = idleWeight * 0.72;
     const limbWeight = idleWeight * 0.64;
     const settleWeight = idleWeight * 0.38;
+    const shoulderWeight = THREE.MathUtils.clamp(0.45 + idleWeight * 0.45, 0, 1);
+    const shoulderSpread = this.shoulderWidth * (1.1 + idleWeight * 0.12);
 
     this.blendTowardsBind(this.bones.leftUpLeg, settleWeight);
     this.blendTowardsBind(this.bones.rightUpLeg, settleWeight);
@@ -218,6 +220,8 @@ export class CharacterRigAnimator {
       0.014 * this.idleStrength * idleB,
       0
     );
+    this.applyBlendedPositionOffset(this.bones.leftShoulder, shoulderWeight, shoulderSpread, 0.004 * idleWeight, 0);
+    this.applyBlendedPositionOffset(this.bones.rightShoulder, shoulderWeight, -shoulderSpread, 0.004 * idleWeight, 0);
     this.applyBlendedRotation(
       this.bones.spine,
       torsoWeight,
