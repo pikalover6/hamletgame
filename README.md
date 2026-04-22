@@ -226,11 +226,29 @@ npm run dev
 npm run build
 ```
 
+### Build for GitHub Pages
+
+```bash
+npm run build:pages
+```
+
 ### Preview production build
 
 ```bash
 npm run preview
 ```
+
+## Deploy to GitHub Pages
+
+This repository includes a workflow at `.github/workflows/deploy-pages.yml` that builds the app with Vite and deploys `dist/` to GitHub Pages.
+
+1. Push to the `main` branch.
+2. In GitHub, open **Settings -> Pages**.
+3. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+4. Wait for the **Deploy to GitHub Pages** workflow to finish.
+5. Open the published Pages URL from the workflow run.
+
+Important: do not deploy the raw repository `index.html` directly. This project must be served from the Vite production build output (`dist/`) so bundled JavaScript and CSS load correctly.
 
 ## Notes
 
