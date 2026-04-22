@@ -58,14 +58,17 @@ function makePulseMesh(geometry, color, emissiveIntensity = 0.28) {
 
 function prioritizeInteractiveVisual(object, renderOrder = 8) {
   object.renderOrder = renderOrder;
-  object.traverse?.((node) => {
+  object.traverse((node) => {
     if (!node.isMesh) {
       return;
     }
 
     node.renderOrder = renderOrder;
-    const material = node.material;
-    if (material && !Array.isArray(material)) {
+    const materials = Array.isArray(node.material) ? node.material : [node.material];
+    for (const material of materials) {
+      if (!material) {
+        continue;
+      }
       material.polygonOffset = true;
       material.polygonOffsetFactor = -1;
       material.polygonOffsetUnits = -2;
