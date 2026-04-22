@@ -1,0 +1,15 @@
+export const OBJECTIVE_TEXT = {
+  "start.approach": "Approach the Philosopher and answer his first accusation.",
+  "start.exit": "Pass through the threshold into the Debate Chamber.",
+  "debate.approach": "Face the Avenger and decide what debt action demands.",
+  "debate.exit": "Leave the stage of argument and enter the Hall of Delay.",
+  "delay.fragments": "Gather the three thought fragments scattered down the hall.",
+  "delay.witness": "Speak to the Witness at the far end of the corridor.",
+  "delay.exit": "Step beyond postponement and enter the Stage of Masks.",
+  "masks.marks": "Stand upon the three stage marks and steady the scene.",
+  "masks.actor": "Answer the Actor when the theatre reveals him.",
+  "masks.exit": "Cross into the Chamber of Consequence.",
+  "consequence.plates": "Wake the three judgment plates around the broken floor.",
+  "consequence.final": "Enter the center and let the ruling self speak.",
+  "ending": "The chamber closes around the self you have chosen.",
+};

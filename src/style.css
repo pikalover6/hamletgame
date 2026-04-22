@@ -1,0 +1,297 @@
+:root {
+  color-scheme: only light;
+  --ink: #19161a;
+  --paper: rgba(242, 232, 216, 0.88);
+  --paper-strong: rgba(242, 232, 216, 0.95);
+  --accent: #7a4d42;
+  --accent-soft: #a5775e;
+  --shadow: rgba(22, 16, 16, 0.35);
+  --panel-border: rgba(118, 92, 72, 0.62);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top, #e4d9c7 0%, #b4b7be 48%, #6f7478 100%);
+  color: var(--ink);
+  font-family: "Garamond", "Book Antiqua", Georgia, serif;
+}
+
+body {
+  position: fixed;
+  inset: 0;
+}
+
+#app,
+#hud {
+  position: fixed;
+  inset: 0;
+}
+
+#app {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.game-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
+}
+
+#hud {
+  pointer-events: none;
+}
+
+.panel {
+  background:
+    linear-gradient(135deg, rgba(248, 238, 224, 0.92), rgba(221, 205, 184, 0.88));
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 18px 40px var(--shadow);
+  backdrop-filter: blur(6px);
+}
+
+.screen {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background:
+    radial-gradient(circle at center, rgba(32, 24, 24, 0.1), rgba(17, 13, 16, 0.72));
+  pointer-events: auto;
+}
+
+.screen-panel {
+  width: min(40rem, calc(100vw - 2rem));
+  padding: 1.4rem 1.35rem;
+  text-align: center;
+}
+
+.modal-panel {
+  width: min(24rem, calc(100vw - 2rem));
+}
+
+.eyebrow {
+  margin: 0 0 0.4rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+.screen h1,
+.screen h2,
+#chapter-card-title {
+  margin: 0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.screen-copy {
+  margin: 1rem auto 0;
+  max-width: 32rem;
+  line-height: 1.6;
+}
+
+.screen-actions {
+  display: grid;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.4rem;
+}
+
+.screen-actions.stack {
+  width: 100%;
+}
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+#focus-hint {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+  max-width: 26rem;
+  padding: 0.85rem 1rem;
+  transition: opacity 160ms ease;
+}
+
+#objective-panel {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: min(24rem, calc(100vw - 2rem));
+  padding: 0.85rem 1rem;
+  transition: opacity 160ms ease;
+}
+
+#objective-panel p {
+  margin: 0;
+  line-height: 1.45;
+}
+
+#chapter-card {
+  position: absolute;
+  top: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(28rem, calc(100vw - 2rem));
+  text-align: center;
+  padding: 0.95rem 1rem;
+  transition: opacity 280ms ease, transform 280ms ease;
+}
+
+#chapter-card.hidden {
+  transform: translateX(-50%) translateY(-0.75rem);
+}
+
+#chapter-card-subtitle {
+  margin-top: 0.4rem;
+  line-height: 1.4;
+}
+
+#focus-hint p,
+#ending p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+#focus-hint p:first-child,
+#dialogue-speaker,
+#ending-title {
+  margin-bottom: 0.45rem;
+  font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+#interaction-prompt {
+  position: absolute;
+  left: 50%;
+  bottom: 2rem;
+  transform: translateX(-50%);
+  padding: 0.65rem 0.95rem;
+  transition: opacity 140ms ease;
+}
+
+#dialogue {
+  position: absolute;
+  left: 50%;
+  bottom: 2.25rem;
+  transform: translateX(-50%);
+  width: min(42rem, calc(100vw - 2rem));
+  padding: 1rem;
+  pointer-events: auto;
+}
+
+#dialogue-line {
+  font-size: 1.02rem;
+  line-height: 1.5;
+  margin-bottom: 0.9rem;
+}
+
+#dialogue-choices {
+  display: grid;
+  gap: 0.65rem;
+}
+
+#dialogue-choices button,
+#restart-button,
+#ending-return-button,
+.screen-actions button {
+  border: 1px solid rgba(101, 60, 51, 0.8);
+  background: linear-gradient(180deg, rgba(133, 79, 66, 0.95), rgba(95, 55, 46, 0.98));
+  color: #f8efe5;
+  padding: 0.85rem 0.9rem;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+#dialogue-choices button:hover,
+#restart-button:hover,
+#ending-return-button:hover,
+.screen-actions button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+#ending {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: min(34rem, calc(100vw - 2rem));
+  padding: 1.4rem;
+  text-align: center;
+  pointer-events: auto;
+}
+
+#ending-title {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+}
+
+#restart-button {
+  margin-top: 1rem;
+  width: 100%;
+  text-align: center;
+}
+
+#ending-return-button {
+  margin-top: 0.65rem;
+  width: 100%;
+  text-align: center;
+}
+
+#transition-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background:
+    radial-gradient(circle at center, rgba(255, 247, 230, 0.15), rgba(19, 15, 18, 0.82));
+  transition: opacity 360ms ease;
+}
+
+#transition-overlay.active {
+  opacity: 1;
+}
+
+@media (max-width: 640px) {
+  #focus-hint {
+    max-width: calc(100vw - 2rem);
+  }
+
+  #objective-panel {
+    top: auto;
+    right: auto;
+    left: 1rem;
+    bottom: 5.9rem;
+    width: calc(100vw - 2rem);
+  }
+
+  #chapter-card {
+    top: 4.2rem;
+  }
+
+  #dialogue {
+    bottom: 1rem;
+    padding: 0.85rem;
+  }
+
+  #interaction-prompt {
+    bottom: 1rem;
+  }
+}

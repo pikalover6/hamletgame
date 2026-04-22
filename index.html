@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inside Hamlet's Mind</title>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <div id="hud">
+      <div id="title-screen" class="screen visible">
+        <div class="panel screen-panel">
+          <p class="eyebrow">A Surreal Narrative Exploration</p>
+          <h1>Inside Hamlet's Mind</h1>
+          <p class="screen-copy">Walk the chambers of a divided self. Each answer strengthens a voice, and each chamber asks what kind of man may act in Hamlet's name.</p>
+          <div class="screen-actions">
+            <button id="continue-button" type="button">Continue</button>
+            <button id="new-game-button" type="button">New Game</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="pause-menu" class="screen hidden">
+        <div class="panel screen-panel modal-panel">
+          <p class="eyebrow">Paused</p>
+          <h2>The Chamber Waits</h2>
+          <div class="screen-actions stack">
+            <button id="resume-button" type="button">Resume</button>
+            <button id="restart-run-button" type="button">Begin New Run</button>
+            <button id="return-title-button" type="button">Return to Title</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="focus-hint" class="panel visible">
+        <p>Inside Hamlet's Mind</p>
+        <p>Click to steady the view. WASD to move. E to answer. Esc to pause.</p>
+      </div>
+
+      <div id="objective-panel" class="panel hidden">
+        <p class="eyebrow">Current Objective</p>
+        <p id="objective-text"></p>
+      </div>
+
+      <div id="chapter-card" class="panel hidden">
+        <div id="chapter-card-title"></div>
+        <div id="chapter-card-subtitle"></div>
+      </div>
+
+      <div id="interaction-prompt" class="panel hidden">Press E</div>
+
+      <div id="dialogue" class="panel hidden">
+        <div id="dialogue-speaker"></div>
+        <div id="dialogue-line"></div>
+        <div id="dialogue-choices">
+          <button id="choice-a" type="button"></button>
+          <button id="choice-b" type="button"></button>
+        </div>
+      </div>
+
+      <div id="ending" class="panel hidden">
+        <h1 id="ending-title"></h1>
+        <p id="ending-line-a"></p>
+        <p id="ending-line-b"></p>
+        <button id="restart-button" type="button">Begin New Run</button>
+        <button id="ending-return-button" type="button">Return to Title</button>
+      </div>
+
+      <div id="transition-overlay"></div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+  </html>
