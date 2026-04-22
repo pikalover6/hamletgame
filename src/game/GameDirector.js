@@ -59,6 +59,7 @@ export function startGame() {
   directionalLight.shadow.camera.right = 18;
   directionalLight.shadow.camera.top = 18;
   directionalLight.shadow.camera.bottom = -18;
+  directionalLight.shadow.normalBias = 0.03;
   scene.add(hemisphereLight, directionalLight);
 
   const { composer, stylizePass } = createComposer(renderer, scene, camera);

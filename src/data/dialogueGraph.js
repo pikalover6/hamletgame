@@ -4,7 +4,7 @@ export const ENCOUNTER_DATA = {
     nodes: {
       opening: {
         speaker: "The Philosopher",
-        text: "Polonius lies behind the arras. You, guiding voice, must answer first: was that justice or panic?",
+        text: "Polonius is dead behind Gertrude's arras. Hamlet aimed for Claudius and killed the wrong man. Name it: justice, mistake, or panic?",
         choices: [
           {
             label: "A mistaken blow still clears the path to Claudius.",
@@ -20,7 +20,7 @@ export const ENCOUNTER_DATA = {
       },
       sharpen: {
         speaker: "The Philosopher",
-        text: "Gertrude saw blood and heard your prince call it providence. Can you keep calling this necessity?",
+        text: "Gertrude watched the body fall and heard Hamlet call it heaven's judgment. Do we keep that claim now that the corpse is Polonius?",
         choices: [
           {
             label: "Fear is for courtiers. We strike again before Claudius settles.",
@@ -36,7 +36,7 @@ export const ENCOUNTER_DATA = {
       },
       temper: {
         speaker: "The Philosopher",
-        text: "Good. Keep the question sharp: one corpse has already made every witness dangerous.",
+        text: "Then stay exact: one wrong death has already armed Claudius with a public case against Hamlet.",
         choices: [
           {
             label: "Questions do not stop Claudius from moving first.",
@@ -52,10 +52,10 @@ export const ENCOUNTER_DATA = {
       },
       threshold: {
         speaker: "The Philosopher",
-        text: "Then walk on. Claudius has already turned this killing into a reason to ship Hamlet to England.",
+        text: "Move. Claudius has turned Polonius's death into a warrant to send Hamlet to England under guard.",
         choices: [
           {
-            label: "Follow the king's order and read the trap.",
+            label: "Go to England and assume the letters are meant to kill Hamlet.",
             effects: {
               addFlags: ["encounter.philosopherIntro.complete"],
               completeEncounter: "philosopherIntro",
@@ -64,7 +64,7 @@ export const ENCOUNTER_DATA = {
             next: "END",
           },
           {
-            label: "Go anyway, but keep one hand on the hidden knife.",
+            label: "Go under escort, but prepare to break Claudius's plan at sea.",
             effects: {
               addFlags: ["encounter.philosopherIntro.complete"],
               completeEncounter: "philosopherIntro",
@@ -88,10 +88,10 @@ export const ENCOUNTER_DATA = {
           },
           {
             when: { scoreAtLeast: { philosopherScore: 2 } },
-            value: "Still counting costs? Claudius writes for England while you polish conscience.",
+            value: "Still counting costs? Claudius has already written to England while you weigh guilt.",
           },
           {
-            value: "I am the will that refuses another delay. Speak plain: do we move on Claudius or let him script us?",
+            value: "Enough delay. Claudius controls the guard, the route, and the letters. Do we seize initiative now or stay in his script?",
           },
         ],
         choices: [
@@ -109,7 +109,7 @@ export const ENCOUNTER_DATA = {
       },
       price: {
         speaker: "The Avenger",
-        text: "Laertes will hear of his father and come home furious. Will you meet that storm with steel or apology?",
+        text: "Laertes is coming home to bury his father. He will blame Hamlet before he hears a full word. Do we meet him with force or remorse?",
         choices: [
           {
             label: "Steel. Let grief come armed; we answer armed.",
@@ -125,7 +125,7 @@ export const ENCOUNTER_DATA = {
       },
       release: {
         speaker: "The Avenger",
-        text: "Carry it forward. In the next hall, even Ophelia's songs begin to sound like evidence against us.",
+        text: "Carry it forward. In the next hall you will hear Ophelia's fractured songs and see what this death has done to the court.",
         choices: [
           {
             label: "Go. We face what the court has become.",
@@ -157,10 +157,10 @@ export const ENCOUNTER_DATA = {
         text: [
           {
             when: { scoreAtLeast: { fatalistScore: 2 } },
-            value: "You already hear the river in every corridor. Ophelia sings to no one and flowers to the air.",
+            value: "You already hear the river in every corridor. Ophelia wanders singing to no one, handing flowers to air and memory.",
           },
           {
-            value: "Look well: Polonius buried, Ophelia undone, Gertrude terrified, Laertes returning. Do you see the chain?",
+            value: "Look plainly: Polonius buried in haste, Ophelia unraveling, Gertrude afraid, Laertes returning armed. Do you see the chain?",
           },
         ],
         choices: [
@@ -178,7 +178,7 @@ export const ENCOUNTER_DATA = {
       },
       measure: {
         speaker: "The Witness",
-        text: "Death gives no counsel. It only strips your language bare. Was madness ever a tactic, or has it become the man?",
+        text: "The deaths do not argue back. They only expose what we did. Is Hamlet still using madness as cover, or has the role consumed him?",
         choices: [
           {
             label: "Keep the mask deliberate; do not let it swallow Hamlet whole.",
@@ -194,7 +194,7 @@ export const ENCOUNTER_DATA = {
       },
       passage: {
         speaker: "The Witness",
-        text: "Then go to the stage. Rosencrantz and Guildenstern walk beside him as friends and carry him like cargo.",
+        text: "Go to the stage. Rosencrantz and Guildenstern speak like friends while escorting Hamlet to England like cargo.",
         choices: [
           {
             label: "Go. We play along and watch every hand.",
@@ -229,7 +229,7 @@ export const ENCOUNTER_DATA = {
             value: "Good. In Act IV, survival belongs to the best performer. Smile for the king and read the sealed letters later.",
           },
           {
-            value: "You call this falsehood. I call it staying alive while Claudius writes your ending in another country.",
+            value: "Call it falsehood if you want. It keeps Hamlet breathing while Claudius signs his death in a foreign court.",
           },
         ],
         choices: [
@@ -247,10 +247,10 @@ export const ENCOUNTER_DATA = {
       },
       argument: {
         speaker: "The Actor",
-        text: "Feign madness to Gertrude, courtesy to spies, obedience to the voyage. Strategy or surrender?",
+        text: "Madness before Gertrude, courtesy before spies, obedience before guards. Is this controlled strategy or total surrender?",
         choices: [
           {
-            label: "Strategy. We perform only until Claudius is exposed.",
+            label: "Strategy. Perform only until Claudius can be answered in public.",
             effects: { actorScore: 1, philosopherScore: 1 },
             next: "exit",
           },
@@ -263,7 +263,7 @@ export const ENCOUNTER_DATA = {
       },
       exit: {
         speaker: "The Actor",
-        text: "Then enter the last chamber. Laertes is nearly at the gate, and Claudius is ready to aim that fury at Hamlet.",
+        text: "Enter the last chamber. Laertes is nearly at Elsinore's gate, and Claudius is ready to point that fury at Hamlet.",
         choices: [
           {
             label: "Enter and claim the next move before they do.",
@@ -299,14 +299,14 @@ export const ENCOUNTER_DATA = {
           },
           {
             when: { dominantArchetype: "philosopher" },
-            value: "Judgment leads. Every step asks whether revenge can still claim the name of justice.",
+            value: "Judgment leads. Hamlet still asks whether killing Claudius can remain justice after killing Polonius.",
           },
           {
             when: { dominantArchetype: "actor" },
-            value: "Performance leads. Every smile hides a counter-move, and sincerity is now a risk.",
+            value: "Performance leads. Hamlet survives by mask, courtesy, and misdirection while Claudius hunts him through policy.",
           },
           {
-            value: "No voice rules. Act IV closes with pressure from every side and no clean hand left.",
+            value: "No voice rules. Act IV closes with Polonius dead, Ophelia broken, Laertes enraged, and Claudius still in power.",
           },
         ],
         choices: [
@@ -324,7 +324,7 @@ export const ENCOUNTER_DATA = {
       },
       seal: {
         speaker: "The Chorus",
-        text: "So be it. The voyage, the court, Ophelia's songs, and Laertes's rage will answer this choice soon enough.",
+        text: "So be it. The voyage, Claudius's letters, Ophelia's collapse, and Laertes's return will test this choice immediately.",
         choices: [
           {
             label: "Hold to the choice.",
