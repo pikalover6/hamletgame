@@ -40,9 +40,35 @@ export class PlayerController {
     this.acceleration = 12;
     this.deceleration = 10;
 
+    this.colliders = [];
+    this.raycaster = new THREE.Raycaster();
+    this._rayOrigin = new THREE.Vector3();
+    this._rayDown = new THREE.Vector3(0, -1, 0);
+    this.stepHeight = 0.4;
+    this._wasMoving = false;
+
+    this._mouseButtonDown = false;
+    this._lastMouseX = 0;
+    this._lastMouseY = 0;
+
     window.addEventListener("keydown", (event) => this.onKeyDown(event));
     window.addEventListener("keyup", (event) => this.onKeyUp(event));
     document.addEventListener("mousemove", (event) => this.onMouseMove(event));
+
+    this.domElement.addEventListener("mousedown", (event) => {
+      this._mouseButtonDown = true;
+      this._lastMouseX = event.clientX;
+      this._lastMouseY = event.clientY;
+      if (this.enabled) {
+        this.requestPointerLock();
+      }
+    });
+
+    document.addEventListener("mouseup", () => {
+      this._mouseButtonDown = false;
+    });
+
+    this.domElement.addEventListener("contextmenu", (event) => event.preventDefault());
   }
 
   onKeyDown(event) {
@@ -54,12 +80,22 @@ export class PlayerController {
   }
 
   onMouseMove(event) {
-    if (document.pointerLockElement !== this.domElement || !this.enabled) {
+    if (!this.enabled) {
       return;
     }
 
-    this.yaw -= event.movementX * 0.0026;
-    this.pitch -= event.movementY * 0.0019;
+    if (document.pointerLockElement === this.domElement) {
+      this.yaw -= event.movementX * 0.0026;
+      this.pitch -= event.movementY * 0.0019;
+    } else if (this._mouseButtonDown) {
+      const dx = event.clientX - this._lastMouseX;
+      const dy = event.clientY - this._lastMouseY;
+      this.yaw -= dx * 0.005;
+      this.pitch -= dy * 0.004;
+    }
+
+    this._lastMouseX = event.clientX;
+    this._lastMouseY = event.clientY;
     this.pitch = THREE.MathUtils.clamp(this.pitch, -0.55, 0.45);
   }
 
@@ -89,12 +125,38 @@ export class PlayerController {
     this.bounds = bounds;
   }
 
+  setColliders(meshes) {
+    this.colliders = meshes;
+  }
+
+  snapToGround() {
+    if (this.colliders.length === 0) {
+      return;
+    }
+
+    const pos = this.character.position;
+    this._rayOrigin.set(pos.x, pos.y + 2.0, pos.z);
+    this.raycaster.set(this._rayOrigin, this._rayDown);
+    this.raycaster.near = 0;
+    this.raycaster.far = 4.0;
+
+    const hits = this.raycaster.intersectObjects(this.colliders, false);
+    for (const hit of hits) {
+      if (hit.point.y <= pos.y + this.stepHeight) {
+        pos.y = hit.point.y;
+        return;
+      }
+    }
+  }
+
   teleport(position, yaw = this.yaw) {
     this.character.position.copy(position);
     this.yaw = yaw;
+    this._wasMoving = false;
     this.moveAmount = 0;
     this.velocity.set(0, 0, 0);
     this.desiredVelocity.set(0, 0, 0);
+    this.snapToGround();
     this.updateCamera(0);
   }
 
@@ -124,13 +186,17 @@ export class PlayerController {
         this.desiredVelocity.copy(this.moveVector).multiplyScalar(this.maxSpeed);
         const targetRotation = Math.atan2(this.desiredVelocity.x, this.desiredVelocity.z);
         this.character.rotation.y = dampAngle(this.character.rotation.y, targetRotation, 10, deltaTime);
-      } else {
-        this.character.rotation.y = dampAngle(this.character.rotation.y, this.yaw, 6, deltaTime);
+        this._wasMoving = true;
+      } else if (this._wasMoving) {
+        // Reorient camera yaw to be behind the character when stopping
+        this.yaw = this.character.rotation.y;
+        this._wasMoving = false;
       }
 
       const lambda = hasMovementInput ? this.acceleration : this.deceleration;
       this.velocity.lerp(this.desiredVelocity, 1 - Math.exp(-lambda * deltaTime));
       this.character.position.addScaledVector(this.velocity, deltaTime);
+      this.snapToGround();
       this.moveAmount = THREE.MathUtils.damp(this.moveAmount, this.velocity.length() / this.maxSpeed, 12, deltaTime);
 
       if (this.bounds) {

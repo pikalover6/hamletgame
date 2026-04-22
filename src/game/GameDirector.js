@@ -71,6 +71,22 @@ export function startGame() {
   let transitionTimerA = 0;
   let transitionTimerB = 0;
   let characters = null;
+  let groundColliders = [];
+  const npcRaycaster = new THREE.Raycaster();
+  const _npcRayDown = new THREE.Vector3(0, -1, 0);
+
+  function snapYToGround(worldPosition) {
+    if (groundColliders.length === 0) {
+      return worldPosition.y;
+    }
+
+    const origin = new THREE.Vector3(worldPosition.x, worldPosition.y + 3, worldPosition.z);
+    npcRaycaster.set(origin, _npcRayDown);
+    npcRaycaster.near = 0;
+    npcRaycaster.far = 8;
+    const hits = npcRaycaster.intersectObjects(groundColliders, false);
+    return hits.length > 0 ? hits[0].point.y : worldPosition.y;
+  }
 
   function setInternalResolution() {
     const width = window.innerWidth;
@@ -127,7 +143,8 @@ export function startGame() {
     }
 
     character.container.position.copy(position);
-    character.container.userData.baseY = position.y;
+    character.container.position.y = snapYToGround(position);
+    character.container.userData.baseY = character.container.position.y;
   }
 
   function syncCharacterPresence(snapshot) {
@@ -530,6 +547,10 @@ export function startGame() {
         interactions.interact();
       }
 
+      if (["KeyW", "KeyA", "KeyS", "KeyD"].includes(event.code) && mode === "explore" && playerController) {
+        playerController.requestPointerLock();
+      }
+
       if (event.code === "Escape") {
         if (mode === "explore") {
           openPauseMenu();
@@ -566,6 +587,8 @@ export function startGame() {
     try {
       characters = await buildCharacters();
       playerController = new PlayerController(characters.player.container, camera, renderer.domElement);
+      groundColliders = environment.getGroundMeshes();
+      playerController.setColliders(groundColliders);
       const snapshot = stateManager.load();
       playerController.setBounds(environment.getBounds(snapshot.currentChamber));
       playerController.teleport(environment.getSpawn(snapshot.currentChamber), Math.PI);

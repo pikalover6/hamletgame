@@ -125,6 +125,7 @@ export class EnvironmentController {
     this.floaters = [];
     this.pulseMeshes = [];
     this.groups = new Map();
+    this.groundMeshes = [];
     this.interactiveObjects = {
       transitions: {},
       fragments: {},
@@ -134,6 +135,7 @@ export class EnvironmentController {
     };
 
     this.buildChambers();
+    this.buildBaseFloors();
     this.setMood("start", "fractured");
   }
 
@@ -242,6 +244,7 @@ export class EnvironmentController {
     const innerFloor = makeFloor(4.6, 5.4, 0.35, 8, "#d2c7ae");
     innerFloor.position.y = -0.05;
     group.add(floor, innerFloor);
+    this.groundMeshes.push(floor, innerFloor);
 
     for (let index = 0; index < 6; index += 1) {
       const angle = (index / 6) * Math.PI * 2;
@@ -290,6 +293,7 @@ export class EnvironmentController {
     const stage = makeFloor(3.1, 3.8, 0.45, 10, "#e0ccb0");
     stage.position.y = 0.05;
     group.add(floor, stage);
+    this.groundMeshes.push(floor, stage);
 
     const ring = this.registerPulseMesh(
       makePulseMesh(new THREE.TorusGeometry(4.8, 0.25, 6, 18), "#b8554f", 0.32),
@@ -343,6 +347,7 @@ export class EnvironmentController {
     floor.position.set(0, -0.45, -3);
     floor.receiveShadow = true;
     group.add(floor);
+    this.groundMeshes.push(floor);
 
     const innerPath = new THREE.Mesh(
       new THREE.BoxGeometry(5.2, 0.18, 28),
@@ -351,6 +356,7 @@ export class EnvironmentController {
     innerPath.position.set(0, 0.02, -3);
     innerPath.receiveShadow = true;
     group.add(innerPath);
+    this.groundMeshes.push(innerPath);
 
     for (let index = 0; index < 7; index += 1) {
       const z = 8 - index * 4.1;
@@ -397,6 +403,7 @@ export class EnvironmentController {
     const floor = makeFloor(9.2, 10.6, 0.8, 12, "#7e6579");
     floor.position.y = -0.42;
     group.add(floor);
+    this.groundMeshes.push(floor);
 
     const stage = new THREE.Mesh(
       new THREE.BoxGeometry(9.5, 0.42, 7.5),
@@ -406,6 +413,7 @@ export class EnvironmentController {
     stage.receiveShadow = true;
     stage.castShadow = true;
     group.add(stage);
+    this.groundMeshes.push(stage);
 
     for (let index = 0; index < 5; index += 1) {
       const frame = makeSlab(2.2 + (index % 2) * 0.8, 3.8 + (index % 3) * 0.6, 0.25, index % 2 === 0 ? "#ccaf8d" : "#563e58");
@@ -456,6 +464,7 @@ export class EnvironmentController {
       tile.castShadow = true;
       tile.receiveShadow = true;
       group.add(tile);
+      this.groundMeshes.push(tile);
     }
 
     const centralRing = this.registerPulseMesh(
@@ -486,6 +495,41 @@ export class EnvironmentController {
     this.interactiveObjects.finalDais = this.createFinalDais(localFromWorld(definition, definition.finalAnchor));
     group.add(this.interactiveObjects.finalDais);
     this.groups.set(definition.id, group);
+  }
+
+  buildBaseFloors() {
+    // Invisible catch planes at y=0 for each chamber.
+    // These live directly in the scene (not inside rotating groups) so they
+    // always cover the full walkable area and never shift under the player.
+    // transparent+opacity:0 keeps the mesh visible=true so the raycaster hits it.
+    const mat = new THREE.MeshBasicMaterial({
+      transparent: true,
+      opacity: 0,
+      depthWrite: false,
+    });
+
+    const definitions = [
+      { cx: 0,   cz: 0,   w: 24, d: 24 }, // start
+      { cx: 38,  cz: 0,   w: 20, d: 20 }, // debate
+      { cx: 82,  cz: -3,  w: 16, d: 36 }, // hallOfDelay
+      { cx: 126, cz: -1,  w: 22, d: 26 }, // stageOfMasks
+      { cx: 170, cz: 0,   w: 22, d: 30 }, // consequence
+    ];
+
+    for (const def of definitions) {
+      const plane = new THREE.Mesh(
+        new THREE.PlaneGeometry(def.w, def.d),
+        mat
+      );
+      plane.rotation.x = -Math.PI / 2;
+      plane.position.set(def.cx, 0, def.cz);
+      this.scene.add(plane);
+      this.groundMeshes.push(plane);
+    }
+  }
+
+  getGroundMeshes() {
+    return this.groundMeshes;
   }
 
   getSpawn(chamberId) {
